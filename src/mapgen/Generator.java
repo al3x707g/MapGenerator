@@ -181,7 +181,7 @@ public class Generator {
 
         current.setVisited(true);
 
-        // Check termination conditions
+        // Check termination condition
         if(!hasUnvisitedNeighbours(x,y)) return;
 
         // Randomly decide whether to move in x or y direction
@@ -203,7 +203,6 @@ public class Generator {
             if(!to.isVisited()) {
                 Edge edge = new Edge(current, to);
                 graph.addEdge(edge);
-                //paintEdge(edge, false);
             }
             else connectGraph(x,y);
         } else {
@@ -218,7 +217,6 @@ public class Generator {
             if(!to.isVisited()) {
                 Edge edge = new Edge(current, to);
                 graph.addEdge(edge);
-                //paintEdge(edge, true);
             }
             else connectGraph(x,y);
         }
