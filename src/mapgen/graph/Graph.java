@@ -104,10 +104,6 @@ public class Graph {
                 result.add(findEdge(edgeFrom, edgeTo));
         }
 
-        for(Edge e : result) {
-            System.out.println(e);
-        }
-
         return result;
     }
 
