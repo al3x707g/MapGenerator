@@ -256,30 +256,34 @@ public class Generator {
 
         // vertical line
         if(fromX == toX) {
+            int play = (int) Math.round(Math.random() * maxPlay);
+
+            int leftX = fromX - minWidth;
+            int rightX = fromX + minWidth;
+
+            if(Math.random() <= 0.5) {
+                leftX -= play;
+                rightX += play;
+            }
+
             for(int y = fromY-2 ; y < toY+2; y++) {
-                int leftX = fromX - minWidth;
-                int rightX = fromX + minWidth;
-
-                if(Math.random() <= 0.8d) {
-                    leftX -= (int) Math.round(Math.random() * maxPlay);
-                    rightX += (int) Math.round(Math.random() * maxPlay);
-                }
-
                 for(int x = leftX; x < rightX; x++) {
                     setBlockType(x, y, BlockType.EMPTY);
                 }
             }
         // horizontal line
         } else {
+            int play = (int) Math.round(Math.random() * maxPlay);
+
+            int upperY = fromY - minWidth;
+            int lowerY = fromY + minWidth;
+
+            if(Math.random() <= 0.5) {
+                upperY -= play;
+                lowerY += play;
+            }
+
             for(int x = fromX-2; x < toX+2; x++) {
-                int upperY = fromY - minWidth;
-                int lowerY = fromY + minWidth;
-
-                if(Math.random() <= 0.8d) {
-                    upperY -= (int) Math.round(Math.random() * maxPlay);
-                    lowerY += (int) Math.round(Math.random() * maxPlay);
-                }
-
                 for(int y = upperY; y < lowerY; y++) {
                     setBlockType(x, y, BlockType.EMPTY);
                 }
