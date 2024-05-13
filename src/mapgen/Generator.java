@@ -6,6 +6,7 @@ import mapgen.graph.Graph;
 import mapgen.graph.Vertex;
 
 import javax.sound.midi.SysexMessage;
+import java.io.File;
 import java.util.ArrayList;
 
 public class Generator {
@@ -50,6 +51,7 @@ public class Generator {
 
         generateGraph();
         connectGraph();
+        //roundCorners();
         addFreeze();
 
         generateSpawn(border+this.startX*distX, border+this.startY*distY, 10);
@@ -124,6 +126,26 @@ public class Generator {
         }
     }
 
+    public void roundCorners() {
+        for(int x = border; x < gridWidth-border; x++) {
+            for(int y = border; y < gridHeight-border; y++) {
+                if(getBlockType(x,y) == BlockType.HOOKABLE) {
+                    ArrayList<Integer> surroundings = getSurroundingBlocks(x,y);
+                    int countHookables = 0;
+                    for(int block : surroundings) {
+                        if(block == BlockType.HOOKABLE) countHookables++;
+                    }
+                    if(countHookables == 3) setBlockType(x,y,BlockType.EMPTY);
+                }
+            }
+        }
+    }
+
+    public void outputImage() {
+        File output = MapOutput.gridToImage(grid);
+        System.out.println("Saved at '" +output.getAbsolutePath() + "'");
+    }
+
     public ArrayList<Integer> getSurroundingBlocks(int x, int y) {
         ArrayList<Integer> blocks = new ArrayList<>();
 
@@ -173,16 +195,15 @@ public class Generator {
     }
 
     private void connectGraph(int x, int y) {
+
         int vertexX = border+x*distX;
         int vertexY = border+y*distY;
 
         Vertex current = graph.vertexAt(vertexX,vertexY);
 
         if(current == null) return;
-
         current.setVisited(true);
 
-        // Check termination condition
         if(!hasUnvisitedNeighbours(x,y)) return;
 
         // Randomly decide whether to move in x or y direction
@@ -379,8 +400,7 @@ public class Generator {
     }
 
     public void outputMap() {
-        MapOutput mo = new MapOutput(this.grid);
-        System.out.println(mo.gridToString());
+        System.out.println(MapOutput.gridToString(grid));
     }
 
     public void setBlockType(int x, int y, int blockType) {

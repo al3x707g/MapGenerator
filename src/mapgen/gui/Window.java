@@ -16,7 +16,7 @@ public class Window extends JFrame {
 
     private void init() {
 
-        gridSize = 300;
+        gridSize = 600;
 
         width = 917;
         height = 940;
@@ -26,7 +26,7 @@ public class Window extends JFrame {
 
     private void createWindow() {
 
-        setSize(new Dimension(width, height));
+        //setSize(new Dimension(width, height));
 
         createPanel();
         add(panel);
@@ -35,7 +35,7 @@ public class Window extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        setVisible(true);
+        //setVisible(true);
 
     }
 
