@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class Window extends JFrame {
 
-    private int width, height;
+    private int width, height, gridSize;
     private JPanel panel;
 
     public Window() {
@@ -16,8 +16,11 @@ public class Window extends JFrame {
 
     private void init() {
 
+        gridSize = 300;
+
         width = 917;
         height = 940;
+
 
     }
 
@@ -37,7 +40,7 @@ public class Window extends JFrame {
     }
 
     private void createPanel() {
-        this.panel = new Panel(width, height);
+        this.panel = new Panel(width, height, gridSize, gridSize);
     }
 
 }

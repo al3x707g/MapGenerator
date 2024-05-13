@@ -11,12 +11,13 @@ public class Panel extends JPanel {
     private final int width, height, gridWidth, gridHeight;
     private final Generator gen;
 
-    public Panel(int width, int height) {
+    public Panel(int width, int height, int gridWidth, int gridHeight) {
         this.width = width;
         this.height = height;
         init();
 
-        gridWidth = gridHeight = 300;
+        this.gridWidth = gridWidth;
+        this.gridHeight = gridHeight;
 
         gen = new Generator(gridWidth, gridHeight);
         gen.generateEmptyGrid();

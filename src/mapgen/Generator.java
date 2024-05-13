@@ -13,6 +13,7 @@ public class Generator {
     private final int[][] grid;
     //public Difficulty main;
     private Graph graph;
+
     private final int border = 10;
 
     private int distX, distY, meshSize, minWidth, maxPlay, startX, startY, endX, endY;
@@ -255,11 +256,13 @@ public class Generator {
         // vertical line
         if(fromX == toX) {
             for(int y = fromY-2 ; y < toY+2; y++) {
-                int leftPlay = (int)(Math.random() * maxPlay);
-                int rightPlay = (int)(Math.random() * maxPlay);
+                int leftX = fromX - minWidth;
+                int rightX = fromX + minWidth;
 
-                int leftX = fromX - minWidth - leftPlay;
-                int rightX = fromX + minWidth + rightPlay;
+                if(Math.random() <= 0.8d) {
+                    leftX -= (int) Math.round(Math.random() * maxPlay);
+                    rightX += (int) Math.round(Math.random() * maxPlay);
+                }
 
                 for(int x = leftX; x < rightX; x++) {
                     setBlockType(x, y, BlockType.EMPTY);
@@ -268,11 +271,13 @@ public class Generator {
         // horizontal line
         } else {
             for(int x = fromX-2; x < toX+2; x++) {
-                int upperPlay = (int)Math.round(Math.random() * maxPlay);
-                int lowerPlay = (int)Math.round(Math.random() * maxPlay);
+                int upperY = fromY - minWidth;
+                int lowerY = fromY + minWidth;
 
-                int upperY = fromY - minWidth - upperPlay;
-                int lowerY = fromY + minWidth + lowerPlay;
+                if(Math.random() <= 0.8d) {
+                    upperY -= (int) Math.round(Math.random() * maxPlay);
+                    lowerY += (int) Math.round(Math.random() * maxPlay);
+                }
 
                 for(int y = upperY; y < lowerY; y++) {
                     setBlockType(x, y, BlockType.EMPTY);
