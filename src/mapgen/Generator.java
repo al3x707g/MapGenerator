@@ -5,6 +5,7 @@ import mapgen.graph.Edge;
 import mapgen.graph.Graph;
 import mapgen.graph.Vertex;
 
+import javax.sound.midi.SysexMessage;
 import java.util.ArrayList;
 
 public class Generator {
@@ -372,6 +373,11 @@ public class Generator {
                 }
             }
         }
+    }
+
+    public void outputMap() {
+        MapOutput mo = new MapOutput(this.grid);
+        System.out.println(mo.gridToString());
     }
 
     public void setBlockType(int x, int y, int blockType) {

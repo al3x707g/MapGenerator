@@ -22,7 +22,9 @@ public class Panel extends JPanel {
         gen = new Generator(gridWidth, gridHeight);
         gen.generateEmptyGrid();
 
-        gen.generateFromGraph(1, 1, 25, 25, 25, 3, 1);
+        gen.generateFromGraph(1, 1, 30, 30, 30, 3, 1);
+
+        //gen.outputMap();
 
         /*gen.generateNoiseMap(123456789, gen.main.lim(), gen.main.frequency());
         gen.floodCenter();
