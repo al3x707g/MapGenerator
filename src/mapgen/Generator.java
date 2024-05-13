@@ -134,7 +134,7 @@ public class Generator {
         blocks.add(getBlockType(x+1, y));
         blocks.add(getBlockType(x-1, y+1));
         blocks.add(getBlockType(x, y+1));
-        blocks.add(getBlockType(x-1, y+1));
+        blocks.add(getBlockType(x+1, y+1));
 
         return blocks;
     }
@@ -144,9 +144,8 @@ public class Generator {
             for(int y = 0; y < gridHeight; y++) {
                 if(getBlockType(x,y) == BlockType.EMPTY) {
                     ArrayList<Integer> surroundings = getSurroundingBlocks(x,y);
-                    for(int i : surroundings) {
-                        if(i == BlockType.HOOKABLE) setBlockType(x,y, BlockType.FREEZE);
-                    }
+                    if(surroundings.contains(BlockType.HOOKABLE))
+                        setBlockType(x,y, BlockType.FREEZE);
                 }
             }
         }
