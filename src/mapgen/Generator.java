@@ -235,7 +235,7 @@ public class Generator {
             ArrayList<Vertex> neighbours = getUnvisitedNeighbours(current);
             if (!neighbours.isEmpty()) {
 
-                int random = (int) Math.round(Math.random() * (neighbours.size() - 1));
+                int random = (int)(Math.random() * (neighbours.size()));
 
                 Vertex next = neighbours.get(random);
 
