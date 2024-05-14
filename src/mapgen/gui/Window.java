@@ -16,7 +16,7 @@ public class Window extends JFrame {
 
     private void init() {
 
-        gridSize = 600;
+        gridSize = 500;
 
         width = 917;
         height = 940;
