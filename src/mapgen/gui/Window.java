@@ -1,11 +1,17 @@
 package mapgen.gui;
 
+import mapgen.MapLength;
+import mapgen.Preset;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class Window extends JFrame {
 
-    private int width, height, gridSize;
+    private int width, height;
+
+    private Preset easy,main,hard;
+
     private JPanel panel;
 
     public Window() {
@@ -16,12 +22,10 @@ public class Window extends JFrame {
 
     private void init() {
 
-        gridSize = 3000;
-
-        width = 917;
-        height = 940;
-
-
+        int length = MapLength.MEDIUM;
+        easy = new Preset(MapLength.MEDIUM, 1, 1, (int)(length*0.04), (int)(length*0.04), (int)(length*0.04), 4, 4);
+        main = new Preset(MapLength.MEDIUM, 1, 1, (int)(length*0.075), (int)(length*0.075), (int)(length*0.075), 2, 3);
+        hard = new Preset(MapLength.MEDIUM, 1, 1, (int)(length*0.1), (int)(length*0.1), (int)(length*0.1), 1, 3);
     }
 
     private void createWindow() {
@@ -40,7 +44,7 @@ public class Window extends JFrame {
     }
 
     private void createPanel() {
-        this.panel = new Panel(width, height, gridSize, gridSize);
+        this.panel = new Panel(main);
     }
 
 }

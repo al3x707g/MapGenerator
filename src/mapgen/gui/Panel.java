@@ -1,5 +1,6 @@
 package mapgen.gui;
 
+import mapgen.Preset;
 import mapgen.blocks.BlockColor;
 import mapgen.Generator;
 
@@ -11,18 +12,17 @@ public class Panel extends JPanel {
     private final int width, height, gridWidth, gridHeight;
     private final Generator gen;
 
-    public Panel(int width, int height, int gridWidth, int gridHeight) {
-        this.width = width;
-        this.height = height;
+    public Panel(Preset preset) {
+        this.width = 917;
+        this.height = 940;
         init();
 
-        this.gridWidth = gridWidth;
-        this.gridHeight = gridHeight;
+        this.gridWidth = this.gridHeight = preset.gridSize();
 
         gen = new Generator(gridWidth, gridHeight);
         gen.generateEmptyGrid();
 
-        gen.generateFromGraph(1, 1, 200, 200, 200, 2, 2);
+        gen.generateFromGraph(preset);
 
         gen.outputImage();
 

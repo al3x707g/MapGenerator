@@ -24,6 +24,7 @@ public class Generator {
         this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
 
+
         //main = new Difficulty(0.05, 1.0 / 30.0);
 
         grid = new int[gridHeight][gridWidth];
@@ -37,17 +38,17 @@ public class Generator {
         }
     }
 
-    public void generateFromGraph(int startX, int startY, int endX, int endY, int meshSize, int minWidth, int maxPlay) {
+    public void generateFromGraph(Preset preset) {
+        this.meshSize = preset.meshSize();
+        this.minWidth = preset.minWidth();
+        this.maxPlay = preset.maxPlay();
+        this.startX = preset.startX()-1;
+        this.startY = preset.startY()-1;
+        this.endX = preset.endX()-1;
+        this.endY = preset.endY()-1;
+
         distX = (gridWidth - 2*border) / (meshSize-1);
         distY = (gridHeight - 2*border) / (meshSize-1);
-
-        this.meshSize = meshSize;
-        this.minWidth = minWidth;
-        this.maxPlay = maxPlay;
-        this.startX = startX-1;
-        this.startY = startY-1;
-        this.endX = endX-1;
-        this.endY = endY-1;
 
         generateGraph();
         connectGraph();
