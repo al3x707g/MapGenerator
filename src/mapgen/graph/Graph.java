@@ -60,6 +60,13 @@ public class Graph {
         return false;
     }
 
+    public boolean allVisited() {
+        for(Vertex v : getVertices()) {
+            if(!v.isVisited()) return false;
+        }
+        return true;
+    }
+
     public ArrayList<Edge> dfs(Vertex from, Vertex to) {
         if(from == null || to == null) return null;
 
