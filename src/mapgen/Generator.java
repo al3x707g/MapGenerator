@@ -7,6 +7,7 @@ import mapgen.graph.Vertex;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class Generator {
 
@@ -190,7 +191,7 @@ public class Generator {
         int vertexY = border+startY*distY;
 
         Vertex start = graph.vertexAt(vertexX, vertexY);
-        connectGraph(start);
+        connectGraphIterative(start);
 
         Vertex end = graph.vertexAt(border+endX*distX, border+endY*distY);
 
@@ -199,7 +200,7 @@ public class Generator {
     }
 
 
-    private void connectGraph(Vertex vertex) {
+    private void connectGraphRecursive(Vertex vertex) {
         if(vertex == null) return;
         vertex.setVisited(true);
 
@@ -213,10 +214,41 @@ public class Generator {
         Edge edge = new Edge(vertex, next);
         graph.addEdge(edge);
 
-        connectGraph(next);
+        connectGraphRecursive(next);
 
         if(getUnvisitedNeighbours(next).isEmpty())
-            connectGraph(vertex);
+            connectGraphRecursive(vertex);
+    }
+
+    private void connectGraphIterative(Vertex vertex) {
+        Stack<Vertex> vertices = new Stack<>();
+
+        Vertex current = vertex;
+
+        vertices.push(current);
+
+        while(!vertices.isEmpty()) {
+            if (current == null) return;
+
+            current.setVisited(true);
+
+            ArrayList<Vertex> neighbours = getUnvisitedNeighbours(current);
+            if (!neighbours.isEmpty()) {
+
+                int random = (int) Math.round(Math.random() * (neighbours.size() - 1));
+
+                Vertex next = neighbours.get(random);
+
+                Edge edge = new Edge(current, next);
+                graph.addEdge(edge);
+
+                current = next;
+                vertices.push(current);
+            } else {
+                vertices.pop();
+                if(!vertices.isEmpty()) current = vertices.peek();
+            }
+        }
     }
 
     public void paintTrimmedGraph(Vertex from, Vertex to) {
