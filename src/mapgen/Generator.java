@@ -5,7 +5,6 @@ import mapgen.graph.Edge;
 import mapgen.graph.Graph;
 import mapgen.graph.Vertex;
 
-import javax.sound.midi.SysexMessage;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -185,65 +184,39 @@ public class Generator {
     }
 
     public void connectGraph() {
-
         graph.setAllVisited(false);
-        connectGraph(startX,startY);
 
-        paintTrimmedGraph(graph.vertexAt(border+startX*distX, border+startY*distY),
-                graph.vertexAt(border+endX*distX, border+endY*distY));
+        int vertexX = border+startX*distX;
+        int vertexY = border+startY*distY;
+
+        Vertex start = graph.vertexAt(vertexX, vertexY);
+        connectGraph(start);
+
+        Vertex end = graph.vertexAt(border+endX*distX, border+endY*distY);
+
+        paintTrimmedGraph(start, end);
 
     }
 
-    private void connectGraph(int x, int y) {
 
-        int vertexX = border+x*distX;
-        int vertexY = border+y*distY;
+    private void connectGraph(Vertex vertex) {
+        if(vertex == null) return;
+        vertex.setVisited(true);
 
-        Vertex current = graph.vertexAt(vertexX,vertexY);
+        ArrayList<Vertex> neighbours = getUnvisitedNeighbours(vertex);
+        if(neighbours.isEmpty()) return;
 
-        if(current == null) return;
-        current.setVisited(true);
+        int random = (int)Math.round(Math.random() * (neighbours.size()-1));
 
-        if(!hasUnvisitedNeighbours(x,y)) return;
+        Vertex next = neighbours.get(random);
 
-        // Randomly decide whether to move in x or y direction
-        boolean moveX = false;
-        double dir = Math.random();
-        if(dir <= 0.5) moveX = true;
+        Edge edge = new Edge(vertex, next);
+        graph.addEdge(edge);
 
-        int randomX = 0, randomY = 0;
+        connectGraph(next);
 
-        if(moveX) {
-            if(x == 0) randomX = 1;
-            else if(x == meshSize-1) randomX = -1;
-            else randomX = Math.random() <= 0.5 ? -1 : 1;
-
-            int toX = border+(x+randomX)*distX;
-            int toY = border+(y+randomY)*distY;
-            Vertex to = graph.vertexAt(toX, toY);
-
-            if(!to.isVisited()) {
-                Edge edge = new Edge(current, to);
-                graph.addEdge(edge);
-            }
-            else connectGraph(x,y);
-        } else {
-            if(y == 0) randomY = 1;
-            else if(y == meshSize-1) randomY = -1;
-            else randomY = Math.random() <= 0.5 ? -1 : 1;
-
-            int toX = border+(x+randomX)*distX;
-            int toY = border+(y+randomY)*distY;
-            Vertex to = graph.vertexAt(toX, toY);
-
-            if(!to.isVisited()) {
-                Edge edge = new Edge(current, to);
-                graph.addEdge(edge);
-            }
-            else connectGraph(x,y);
-        }
-
-        connectGraph(x+randomX, y+randomY);
+        if(getUnvisitedNeighbours(next).isEmpty())
+            connectGraph(vertex);
     }
 
     public void paintTrimmedGraph(Vertex from, Vertex to) {
@@ -310,6 +283,32 @@ public class Generator {
             }
         }
 
+    }
+
+    private ArrayList<Vertex> getUnvisitedNeighbours(Vertex vertex) {
+        ArrayList<Vertex> result = new ArrayList<>();
+
+        int x = vertex.getX();
+        int y = vertex.getY();
+
+        if(x-distX >= 10) {
+            Vertex neighbour = graph.vertexAt(x-distX, y);
+            if(neighbour != null && !neighbour.isVisited()) result.add(neighbour);
+        }
+        if(x+distX < border+meshSize*distX) {
+            Vertex neighbour = graph.vertexAt(x+distX, y);
+            if(neighbour != null && !neighbour.isVisited()) result.add(neighbour);
+        }
+        if(y-distY >= 10) {
+            Vertex neighbour = graph.vertexAt(x, y-distY);
+            if(neighbour != null && !neighbour.isVisited()) result.add(neighbour);
+        }
+        if(y+distY < border+meshSize*distY) {
+            Vertex neighbour = graph.vertexAt(x, y+distY);
+            if(neighbour != null && !neighbour.isVisited()) result.add(neighbour);
+        }
+
+        return result;
     }
 
     private boolean hasUnvisitedNeighbours(int meshX, int meshY) {
