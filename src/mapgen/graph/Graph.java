@@ -61,9 +61,8 @@ public class Graph {
     }
 
     public boolean allVisited() {
-        for(Vertex v : getVertices()) {
+        for(Vertex v : getVertices())
             if(!v.isVisited()) return false;
-        }
         return true;
     }
 
