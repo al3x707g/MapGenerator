@@ -22,7 +22,7 @@ public class Panel extends JPanel {
         gen = new Generator(gridWidth, gridHeight);
         gen.generateEmptyGrid();
 
-        gen.generateFromGraph(1, 1, 50, 50, 50, 2, 2);
+        gen.generateFromGraph(1, 1, 200, 200, 200, 2, 2);
 
         gen.outputImage();
 
