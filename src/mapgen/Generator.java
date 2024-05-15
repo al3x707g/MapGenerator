@@ -51,6 +51,8 @@ public class Generator {
         distY = (gridHeight - 2*border) / (meshSize-1);
 
         generateGraph();
+        addHorizontalConstraint(border, border+3*(meshSize/4)*distX, border+(meshSize/4)*distY);
+        addHorizontalConstraint(border+(meshSize/4)*distX, border+meshSize*distX, border+3*(meshSize/4)*distY);
         connectGraph();
         roundCorners();
         addFreeze();
@@ -252,6 +254,19 @@ public class Generator {
         }
     }
 
+    public void addHorizontalConstraint(int fromX, int toX, int y) {
+        for(int i = fromX; i < toX; i++) {
+            // Check whether the position (i,y) is a valid position in the mesh
+            if((i-border) % distX == 0) {
+                Vertex current = graph.vertexAt(i, y);
+
+                if (current != null) graph.removeVertex(current);
+            }
+            // ONLY FOR VISUALISATION
+            setBlockType(i,y,BlockType.FLOOD);
+        }
+    }
+
     public void paintTrimmedGraph(Vertex from, Vertex to) {
         ArrayList<Edge> edges = graph.dfs(from, to);
 
@@ -430,11 +445,11 @@ public class Generator {
     }
 
     public void setBlockType(int x, int y, int blockType) {
-        grid[y][x] = blockType;
+        grid[x][y] = blockType;
     }
 
     public int getBlockType(int x, int y) {
-        return grid[y][x];
+        return grid[x][y];
     }
 
     public int[][] getGrid() {
