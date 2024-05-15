@@ -52,7 +52,7 @@ public class Generator {
 
         generateGraph();
         connectGraph();
-        //roundCorners();
+        roundCorners();
         addFreeze();
 
         generateSpawn(border+this.startX*distX, border+this.startY*distY, 10);
@@ -255,12 +255,19 @@ public class Generator {
     public void paintTrimmedGraph(Vertex from, Vertex to) {
         ArrayList<Edge> edges = graph.dfs(from, to);
 
+        int play = (int)(Math.random()*(maxPlay+1));
+
         for(Edge e : edges) {
-            paintEdge(e);
+            //Calculate new play based on previous play
+            if(play == 0) play++;
+            else if(play == maxPlay) play--;
+            else play += (int)(Math.random()*maxPlay-1.99);
+
+            paintEdge(e, play);
         }
     }
 
-    private void paintEdge(Edge edge) {
+    private void paintEdge(Edge edge, int play) {
         if(edge == null) return;
 
         Vertex from = edge.getFrom();
@@ -282,34 +289,20 @@ public class Generator {
 
         // vertical line
         if(fromX == toX) {
-            int play = (int) Math.round(Math.random() * maxPlay);
+            int leftX = fromX - minWidth - play;
+            int rightX = fromX + minWidth + play;
 
-            int leftX = fromX - minWidth;
-            int rightX = fromX + minWidth;
-
-            if(Math.random() <= 0.5) {
-                leftX -= play;
-                rightX += play;
-            }
-
-            for(int y = fromY-2 ; y < toY+2; y++) {
+            for(int y = fromY ; y < toY; y++) {
                 for(int x = leftX; x < rightX; x++) {
                     setBlockType(x, y, BlockType.EMPTY);
                 }
             }
         // horizontal line
         } else {
-            int play = (int) Math.round(Math.random() * maxPlay);
+            int upperY = fromY - minWidth - play;
+            int lowerY = fromY + minWidth + play;
 
-            int upperY = fromY - minWidth;
-            int lowerY = fromY + minWidth;
-
-            if(Math.random() <= 0.5) {
-                upperY -= play;
-                lowerY += play;
-            }
-
-            for(int x = fromX-2; x < toX+2; x++) {
+            for(int x = fromX; x < toX; x++) {
                 for(int y = upperY; y < lowerY; y++) {
                     setBlockType(x, y, BlockType.EMPTY);
                 }
@@ -420,6 +413,7 @@ public class Generator {
         }
     }
 
+    // Functional, but not producing playable map
     public void generateNoiseMap(long seed, double lim, double frequency) {
         for(int x = 5; x < gridWidth - 5; x++) {
             for(int y = 5; y < gridHeight - 5; y++) {
