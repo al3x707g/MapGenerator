@@ -26,10 +26,6 @@ public class Panel extends JPanel {
 
         gen.outputImage();
 
-        /*gen.generateNoiseMap(123456789, gen.main.lim(), gen.main.frequency());
-        gen.floodCenter();
-        gen.removeUnflooded();
-        gen.unflood();*/
     }
 
     private void init() {
