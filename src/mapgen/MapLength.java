@@ -2,8 +2,8 @@ package mapgen;
 
 public class MapLength {
 
-    public final static int SHORT = 60;
-    public final static int MEDIUM = 120;
-    public final static int LONG = 200;
+    public final static int SHORT = 50;
+    public final static int MEDIUM = 100;
+    public final static int LONG = 150;
 
 }
