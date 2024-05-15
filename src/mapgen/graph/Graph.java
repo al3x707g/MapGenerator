@@ -21,6 +21,24 @@ public class Graph {
             vertices.add(vertex);
     }
 
+    public void removeVertex(Vertex vertex) {
+        if(vertex == null || !vertices.contains(vertex)) return;
+
+        vertices.remove(vertex);
+
+        // remove any edges associated with the vertex
+        for(Edge e : getEdges()) {
+            if(e.getFrom() == vertex) removeEdge(e);
+            else if(e.getTo() == vertex) removeEdge(e);
+        }
+    }
+
+    public void removeEdge(Edge edge) {
+        if(edge == null || !edges.contains(edge)) return;
+
+        edges.remove(edge);
+    }
+
     public void addEdge(Edge edge) {
         if(edges.contains(edge)) return;
 
