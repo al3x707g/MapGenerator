@@ -51,8 +51,6 @@ public class Generator {
         distY = (gridHeight - 2*border) / (meshSize-1);
 
         generateGraph();
-        addHorizontalConstraint(border, border+3*(meshSize/4)*distX, border+(meshSize/4)*distY);
-        addHorizontalConstraint(border+(meshSize/4)*distX, border+meshSize*distX, border+3*(meshSize/4)*distY);
         connectGraph();
         roundCorners();
         addFreeze();
@@ -194,7 +192,7 @@ public class Generator {
         int vertexY = border+startY*distY;
 
         Vertex start = graph.vertexAt(vertexX, vertexY);
-        connectGraphIterative(start);
+        connectGraph(start);
 
         Vertex end = graph.vertexAt(border+endX*distX, border+endY*distY);
 
@@ -202,28 +200,7 @@ public class Generator {
 
     }
 
-
-    private void connectGraphRecursive(Vertex vertex) {
-        if(vertex == null) return;
-        vertex.setVisited(true);
-
-        ArrayList<Vertex> neighbours = getUnvisitedNeighbours(vertex);
-        if(neighbours.isEmpty()) return;
-
-        int random = (int)Math.round(Math.random() * (neighbours.size()-1));
-
-        Vertex next = neighbours.get(random);
-
-        Edge edge = new Edge(vertex, next);
-        graph.addEdge(edge);
-
-        connectGraphRecursive(next);
-
-        if(getUnvisitedNeighbours(next).isEmpty())
-            connectGraphRecursive(vertex);
-    }
-
-    private void connectGraphIterative(Vertex vertex) {
+    private void connectGraph(Vertex vertex) {
         Stack<Vertex> vertices = new Stack<>();
 
         Vertex current = vertex;
@@ -350,24 +327,6 @@ public class Generator {
         }
 
         return result;
-    }
-
-    private boolean hasUnvisitedNeighbours(int meshX, int meshY) {
-        int unvisited = 0;
-
-        int x = border+meshX*distX;
-        int y = border+meshY*distY;
-
-        if(meshX > 0)
-            unvisited = !graph.vertexAt(border+(meshX-1)*distX,y).isVisited() ? unvisited+1 : unvisited;
-        if(meshX < meshSize-1)
-            unvisited = !graph.vertexAt(border+(meshX+1)*distX,y).isVisited() ? unvisited+1 : unvisited;
-        if(meshY > 0)
-            unvisited = !graph.vertexAt(x,border+(meshY-1)*distY).isVisited() ? unvisited+1 : unvisited;
-        if(meshY < meshSize-1)
-            unvisited = !graph.vertexAt(x,border+(meshY+1)*distY).isVisited() ? unvisited+1 : unvisited;
-
-        return unvisited > 0;
     }
 
     public void floodCenter() {
