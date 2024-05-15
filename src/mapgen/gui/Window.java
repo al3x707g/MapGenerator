@@ -23,9 +23,9 @@ public class Window extends JFrame {
     private void init() {
 
         int length = MapLength.MEDIUM;
-        easy = new Preset(MapLength.MEDIUM, 1, 1, (int)(length*0.04), (int)(length*0.04), (int)(length*0.04), 4, 4);
-        main = new Preset(MapLength.MEDIUM, 1, 1, (int)(length*0.075), (int)(length*0.075), (int)(length*0.075), 2, 3);
-        hard = new Preset(MapLength.MEDIUM, 1, 1, (int)(length*0.1), (int)(length*0.1), (int)(length*0.1), 1, 3);
+        easy = new Preset(MapLength.MEDIUM * 14, 1, 1, length, length, length, 4, 4);
+        main = new Preset(MapLength.MEDIUM * 12, 1, 1, length, length, length, 2, 3);
+        hard = new Preset(MapLength.MEDIUM * 11, 1, 1, length, length, length, 1, 3);
     }
 
     private void createWindow() {
